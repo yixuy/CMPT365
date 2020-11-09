@@ -1,0 +1,111 @@
+The environment: Windows 10
+IDE: Intellij
+
+Open file:
+	1. You could use intellij IDE to run it which is recommended
+	2  Click exe
+	*Hint the size of JPG should not be so large(eg. not greater than 5MB)
+How to use:
+	If you run the file successfully, you could see a drag box dialog, you could drag either bmp IMG file to it,
+	it can not accept another file since we do not require. 
+	If you drag BMP or JPG.
+	For BMP:
+		HalfButton: Display the image with height and width both half
+		Effect Combo box:
+			Original:  Displays the original colored image
+			GrayScale: The grayscale image of the original image
+			Darker:    The darker 50% image of the original image
+			Vivid:     The vivid image of the original image
+			Gamma:     The gamma correction image of the original image
+			Pixelate:  The pixelate will make distinguish each pixel on the screen 
+			Blur:      Using box blur to show the mosaic image
+		Histogram:
+			Show the grayscale histogram to see the frequecy of piexl
+		Saved Combo box:
+			10% saved: obtain 10 % detail to compress and decompress
+			50 % saved: obtain 50 % detail to compress and decompress
+			90% saved: obtain 90 % detail to compress and decompress
+		RotateButton: 
+			Display the image with rotated 180 degrees
+
+	For JPG:
+		HalfButton: Display the image with height and width both half
+		Effect Combo box:
+			Original:  Displays the original colored image
+			GrayScale: The grayscale image of the original image
+			Darker:    The darker 50% image of the original image
+			Vivid:     The vivid image of the original image
+			Gamma:     The gamma correction image of the original image
+			Pixelate:  The pixelate will make distinguish each pixel on the screen
+			Blur:      Using box blur to show the mosaic image
+		Histogram:
+			Show the grayscale histogram to see the frequecy of piexl
+		RotateButton: 
+			Display the image with rotated 180 degrees
+	For IMG:
+		Compression ratio label
+		Compression time
+		Decompression time
+
+	*Hint: If you can not see the button or box, please try to adjust the frame size maybe full screen. 
+	Before choose the save option, you need to click the effect you choose, the grayscale could not be compressed.
+Functionaliy:
+	main class: to invoke the program
+DragFileBox: The UI for user to choose file as they like 
+Four packages：
+colorConvertor:
+	Pixel: Pixel represent a pixel has RGB and YUV, which could convert each other.
+entrioyCoding:
+	Huffman: huffman encoding and decoding for string 
+	HuffmanNode: serve for Huffman 
+imageProcess:
+	Lossy:
+		lossyCompress: lossy Compress trigger this function to compress 
+		initBlockYUV():read RGB and transfer to YUV 
+        	DCT(): DCT and quantized
+      		zigzagScanner()： DCT and quantized and get run lenth file(rl)
+   		Huffman.Compress(outputBuff, fileName, path)： Huffman compress and get new img(IMG)
+      		lossyDecompress(fileName,path): lossy decompress trigger this function to decompress
+		Huffman.Decompress(fileName, filePath): Huffman decompress and get new rl
+        	deCode(filePath + rlFile): rl file to read YUV 
+        	inDCT(): inDCT and inquantized
+       		getRGBImg(): YUV to RGB
+	ProcessBMP:
+		Read BMP byte data from pathString 
+		extractData():
+			Read all header information data using byte2Int in ReadFile and extract the RGB data using readRGB() in 
+			ProcessBMP class due to r or g or b is only one byte
+			Store rgb in the three matrix 
+		showImage
+			Build UI using jpanel and jframe 
+			Using combo box listener to call ImageGraph's funcitons as user want effect
+			Using histogram button to see the user choice effect image's grayscale histogram(double click going back)
+			Using roatate button to see the rotated 180 degrees image(double click going back)
+			Using half button to see the half heiht and width image(double click going back)
+	ProcessJPG:
+		Read JPG data from pathString 
+		showImage
+			Build UI using jpanel and jframe 
+			Using combo box listener to call ImageGraph's funcitons as user want effect
+			Using histogram button to see the user choice effect image's grayscale histogram(double click going back)
+			Using roatate button to see the rotated 180 degrees image(double click going back)
+			Using half button to see the half heiht and width image(double click going back)
+	ImageGraph:
+		Draw the image for the wav based on the height and width
+		we use an array to store grayscale for the image
+		originalDraw(): pixel by pixel draw using color variable 
+		grayScaleDraw(): pixel by pixel draw using specific number combine for rgb to get a grayscale
+		darkerDraw():  pixel by pixel draw decrease 50% lightness for darker image
+		vividDraw():  pixel by pixel draw using gamma correction and linear scratch 
+		gammaDraw():  pixel by pixel draw using gamma correction 
+
+	
+utili:
+	DragFileBox:
+		Extract the pathString for user choose
+	ReadFile:
+		readByte: Read all byte data from the pathString  
+		byte2Int: Transfer byte data(2 or 4bytes) in little_endian order to get the int 
+	QMatrix: 
+		Store the quantized matrix for DCT using
+
